@@ -14,31 +14,31 @@
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Class class = [self class];
-        
-        {
-            SEL originalSelector = @selector(drawRect:);
-            SEL swizzledSelector = @selector(hollow_drawRect:);
-            
-            Method originalMethod = class_getInstanceMethod(class, originalSelector);
-            Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-            
-            
-            BOOL didAddMethod =
-            class_addMethod(class,
-                            originalSelector,
-                            method_getImplementation(swizzledMethod),
-                            method_getTypeEncoding(swizzledMethod));
-            
-            if (didAddMethod) {
-                class_replaceMethod(class,
-                                    swizzledSelector,
-                                    method_getImplementation(originalMethod),
-                                    method_getTypeEncoding(originalMethod));
-            } else {
-                method_exchangeImplementations(originalMethod, swizzledMethod);
-            }
-        }
+//        Class class = [self class];
+//
+//        {
+//            SEL originalSelector = @selector(drawRect:);
+//            SEL swizzledSelector = @selector(hollow_drawRect:);
+//
+//            Method originalMethod = class_getInstanceMethod(class, originalSelector);
+//            Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+//
+//
+//            BOOL didAddMethod =
+//            class_addMethod(class,
+//                            originalSelector,
+//                            method_getImplementation(swizzledMethod),
+//                            method_getTypeEncoding(swizzledMethod));
+//
+//            if (didAddMethod) {
+//                class_replaceMethod(class,
+//                                    swizzledSelector,
+//                                    method_getImplementation(originalMethod),
+//                                    method_getTypeEncoding(originalMethod));
+//            } else {
+//                method_exchangeImplementations(originalMethod, swizzledMethod);
+//            }
+//        }
         
         
 //        {
@@ -78,36 +78,41 @@
     return [self hollow_hitTest:point];
 }
 
+
 - (void)hollow_drawRect:(NSRect)dirtyRect {
-    [self hollow_drawRect:dirtyRect];
+    NSLog(@"%s begin", __func__);
+
+//    [self hollow_drawRect:dirtyRect];
 
     if (self.enableHollowOut) {
-        [self hollowOut];
+        CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+        [self hollowOutInContext:context];
     }
+    NSLog(@"%s end", __func__);
 }
 
 - (void)hollowOut {
-    return ;
-    if (self.enableHollowOut) {
-//        [[NSColor redColor] set];
+    [self display];
+}
+
+- (void)hollowOutInContext:(CGContextRef)context {
+
+    //        CGContextSetRGBStrokeColor(context, 0.0, 0.0, 1.0, 1.0);
+    //        CGContextSetLineWidth(context, 10);
+    for (NSValue *areaValue in self.hollowoutAreaArray) {
+//        CGContextBeginTransparencyLayer(context, NULL);
         
-        CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] CGContext];
+//        CGContextSetBlendMode(context, kCGBlendModeClear);
+        CGContextSetFillColorWithColor(context, [NSColor redColor].CGColor);
+        NSLog(@"redColor");
+        CGRect rect = [areaValue rectValue];
+        //
+        //            CGContextStrokeRect(context, rect);
+        //            CGContextClearRect(context, rect);
         
-//        CGContextSetRGBFillColor(context, 0.0, 0.0, 0.0, 0.0);
-//        CGContextSetRGBStrokeColor(context, 0.0, 0.0, 1.0, 1.0);
-//        CGContextSetLineWidth(context, 10);
-        for (NSValue *areaValue in self.hollowoutAreaArray) {
-
-
-            CGRect rect = [areaValue rectValue];
-//            CGContextFillRect(context, rect);
-//
-//            CGContextStrokeRect(context, rect);
-            
-            CGContextClearRect(context, rect);
-
-
-        }
+        CGContextFillRect(context, rect);
+        
+//        CGContextEndTransparencyLayer(context);
     }
 }
 
@@ -116,7 +121,7 @@
 static NSString *hollowoutAreaArrayKey = @"hollowoutAreaArrayKey";
 - (void)setHollowoutAreaArray:(NSMutableArray<NSValue *> *)hollowoutAreaArray {
     objc_setAssociatedObject(self, &hollowoutAreaArrayKey, hollowoutAreaArray, OBJC_ASSOCIATION_RETAIN);
-    [self display];
+//    [self display];
 }
 
 - (NSMutableArray<NSValue *> *)hollowoutAreaArray {
@@ -127,7 +132,7 @@ static NSString *hollowoutAreaArrayKey = @"hollowoutAreaArrayKey";
 static NSString *enableHollowOutKey = @"enableHollowOutKey";
 - (void)setEnableHollowOut:(BOOL)enableHollowOut {
     objc_setAssociatedObject(self, &enableHollowOutKey, @(enableHollowOut), OBJC_ASSOCIATION_ASSIGN);
-    [self display];
+//    [self display];
 }
 
 - (BOOL)enableHollowOut {

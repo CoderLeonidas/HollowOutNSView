@@ -10,16 +10,21 @@
 @implementation LYView
 
 - (void)drawRect:(NSRect)dirtyRect {
+    NSLog(@"%s begin", __func__);
+
     [super drawRect:dirtyRect];
     
     [[[NSColor orangeColor] colorWithAlphaComponent:0.8] set];
     NSRectFill(dirtyRect);
+    NSLog(@"orangeColor");
+//    [[[NSColor redColor] colorWithAlphaComponent:0.8] set];
+//    NSRectFill(dirtyRect);
+//
+//    [[NSColor clearColor] set];
+//    NSRectFill(dirtyRect);
     
-    [[[NSColor redColor] colorWithAlphaComponent:0.8] set];
-    NSRectFill(dirtyRect);
-    
-    [[NSColor clearColor] set];
-    NSRectFill(dirtyRect);
+    NSLog(@"%s end", __func__);
+
 }
 
 

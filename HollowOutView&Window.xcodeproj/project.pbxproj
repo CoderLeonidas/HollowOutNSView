@@ -164,9 +164,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A1EF49823FB8599005B9540 /* NSView+Hollow.m in Sources */,
 				0A1EF49F23FBB14A005B9540 /* NSWindow+Drag.m in Sources */,
 				0AA43BDC23F52FDF0012E23E /* main.m in Sources */,
-				0A1EF49823FB8599005B9540 /* NSView+Hollow.m in Sources */,
 				0AA43BD423F52FDC0012E23E /* AppDelegate.m in Sources */,
 				0AD6C37E23F531A50074F740 /* LYWindow.m in Sources */,
 				0AA43BE523F52FF20012E23E /* LYView.m in Sources */,

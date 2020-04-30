@@ -35,8 +35,8 @@
     [self setupWindow];
     
     
-    self.customView.wantsLayer = YES;
-    self.customView.layer.backgroundColor = [NSColor orangeColor].CGColor;
+//    self.customView.wantsLayer = YES;
+//    self.customView.layer.backgroundColor = [NSColor orangeColor].CGColor;
     
      _hollowoutAreas = @[[NSValue valueWithRect:NSMakeRect(0, 0, 100, 100)],
                          [NSValue valueWithRect:NSMakeRect(self.imageView.frame.size.width - 100, self.imageView.frame.size.height - 100, 200, 200)]];
